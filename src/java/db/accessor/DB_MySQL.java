@@ -1,6 +1,8 @@
 
 package db.accessor;
 
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,19 +15,27 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * class is an implementation of IDBAccessor Interface
+ * and represents module that connects to MySQL Database
  * @author Machi
  */
 public class DB_MySQL  implements IDBAccessor {
     
     private Connection connection;
-    // no-arg constructor
-    public DB_MySQL() {}
     
+    /** no-arg constructor
+     * 
+     */
+    public DB_MySQL() {}
+    /**
+     * implementation of openDBConnection method 
+     */
     @Override
     public void openDBConnection(String driverClassName, String url, String username, String password) 
 	    throws IllegalArgumentException, ClassNotFoundException, SQLException	
     {
 	String msg = "Error: url is null or zero length!";
+	
 	if( url == null || url.length() == 0 ) throw new IllegalArgumentException(msg);
 	username = (username == null) ? "" : username;
 	password = (password == null) ? "" : password;
@@ -57,7 +67,7 @@ public class DB_MySQL  implements IDBAccessor {
 	    while(rs.next()) {
 		record = new LinkedHashMap();
 		
-		for (int i = 1; i < fieldCount; i++) {
+		for (int i = 1; i <= fieldCount; i++) {
 		    try {
 			record.put( metaData.getColumnName(i), rs.getObject(i) );
 			} catch(NullPointerException npe) { 
@@ -75,7 +85,7 @@ public class DB_MySQL  implements IDBAccessor {
 		try {
 		    stmt.close();
 		    if(closeConnection) connection.close();
-		    } catch(SQLException e) {
+		} catch(SQLException e) {
 			    throw e;
 		} // end try
 	} // end finally

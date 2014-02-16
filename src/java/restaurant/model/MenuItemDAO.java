@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -35,9 +33,18 @@ public class MenuItemDAO implements IMenuItemDAO{
     public MenuItemDAO(IDBAccessor db){
 	this.db = db;    
     }
+
+    public IDBAccessor getDb() {
+	return db;
+    }
+
+    public void setDb(IDBAccessor db) {
+	this.db = db;
+    }
 	    
     
-    public void openMySQLConnection() throws  Exception {
+    @Override
+    public void openDBConnection() throws  Exception {
 	try {
             // Each time you perform a new query you must re-open the connection
             db.openDBConnection(
@@ -52,50 +59,51 @@ public class MenuItemDAO implements IMenuItemDAO{
     
     // method gets all the items from menu_item table
     public List<MenuItem> getAllMenuItems() throws Exception {
-	this.openMySQLConnection();
+	this.openDBConnection();
 	
 	List<LinkedHashMap> rawData = new ArrayList<>();
 	List<MenuItem> menuRecords = new ArrayList<>();
 
-	   	
-    //rawData = db.findAllRecords(SELECT_ALL_QUERY, true);
-    
-    MenuItem item = null;
+
+	rawData = db.findAllRecords(SELECT_ALL_QUERY, true);
+
+	MenuItem item = null;
 
 	for (LinkedHashMap m : rawData) {
-	item = new MenuItem();
+	    item = new MenuItem();
 
-	String id = m.get("item_id").toString();
-	item.setItemId(new Integer(id));
+	    String id = m.get("item_id").toString();
+	    item.setItemId(new Integer(id));
 
-	String name = m.get("item_name").toString();
-	item.setItemName(name);
+	    String name = m.get("item_name").toString();
+	    item.setItemName(name);
 
-	String description = m.get("item_info").toString();
-	item.setItemInfo(description);
+	    String description = m.get("item_info").toString();
+	    item.setItemInfo(description);
 
-	//		String price = m.get("item_price").toString();
-	//		item.setItemPrice(new Double(price));		    
+	    String price = m.get("item_price").toString();
+	    item.setItemPrice(new Double(price));		    
 
 
-	menuRecords.add(item);
-
-	}
-		
-    return menuRecords;
+	    menuRecords.add(item);
+	}	
+	return menuRecords;
     }
        
-    public static void main(String[] args) {
-	
-	MenuItemDAO menu = new MenuItemDAO();
-	try {
-	   	    
-	    for (MenuItem m:  menu.getAllMenuItems() ){
-		System.out.println(m.toString());
-	    }
-	} catch (Exception ex) {
-	    Logger.getLogger(MenuItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-	}
-    
-    }
+//    public static void main(String[] args) {
+//	
+//	MenuItemDAO menu = new MenuItemDAO(new DB_MySQL());
+//	try {
+//	    menu.openDBConnection();
+//	
+//	    System.out.println("test");	    
+//	    
+//	    for (MenuItem m:  menu.getAllMenuItems()){
+//		System.out.println(m.toString());
+//	    }
+//	} catch (Exception ex) {
+//	    Logger.getLogger(MenuItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+//	}
+//    
+//    }
 }

@@ -45,5 +45,10 @@ public class MenuItem {
 	this.itemPrice = itemPrice;
     }
     
+    @Override
+    public String toString() {
+        return this.itemId + ": " + this.itemName + " (" + this.itemInfo + ") " + this.itemPrice;
+    }
+    
     
 }

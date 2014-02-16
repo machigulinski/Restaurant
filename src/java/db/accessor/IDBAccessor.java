@@ -4,12 +4,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * Interface for database 
  * @author Machi
  */
 public interface IDBAccessor {
-    
-    public abstract void openDBConnection(String driverClassName, String url, String username, String password)
+    /**
+     * method opens database connection
+     * @param driverClassName
+     * @param url
+     * @param username
+     * @param password
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     */
+    public abstract void openDBConnection(String driverClassName, String url, 
+	    String username, String password)
 	    throws IllegalArgumentException, ClassNotFoundException, SQLException;
     
     
