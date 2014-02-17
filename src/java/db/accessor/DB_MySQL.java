@@ -71,7 +71,6 @@ public class DB_MySQL  implements IDBAccessor {
 		    try {
 			record.put( metaData.getColumnName(i), rs.getObject(i) );
 			} catch(NullPointerException npe) { 
-			    // no need to do anything... if it fails, just ignore it and continue
 			}
 		  } 	
 		  recordList.add(record);
@@ -79,19 +78,16 @@ public class DB_MySQL  implements IDBAccessor {
 	
 	} catch (SQLException sqle) {
 			throw sqle;
-		} catch (Exception e) {
-			throw e;
+		
 	} finally {
 		try {
 		    stmt.close();
 		    if(closeConnection) connection.close();
 		} catch(SQLException e) {
-			    throw e;
-		} // end try
+		    throw e;
+		} 
 	} // end finally
 	
-	return recordList;
-	
-    }
-	
+	return recordList;	
+    }	
 }

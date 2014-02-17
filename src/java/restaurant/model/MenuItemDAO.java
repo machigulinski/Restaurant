@@ -58,16 +58,23 @@ public class MenuItemDAO implements IMenuItemDAO{
     }
     
     // method gets all the items from menu_item table
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+        @Override
     public List<MenuItem> getAllMenuItems() throws Exception {
 	this.openDBConnection();
 	
-	List<LinkedHashMap> rawData = new ArrayList<>();
+	List<LinkedHashMap> rawData;
 	List<MenuItem> menuRecords = new ArrayList<>();
 
 
 	rawData = db.findAllRecords(SELECT_ALL_QUERY, true);
 
-	MenuItem item = null;
+	MenuItem item;
 
 	for (LinkedHashMap m : rawData) {
 	    item = new MenuItem();

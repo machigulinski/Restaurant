@@ -34,22 +34,23 @@ public class RestaurantController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	response.setContentType("text/html;charset=UTF-8");
-	     
+	response.setContentType("text/html;charset=UTF-8");	     
      
 	 String actionType = request.getParameter("actionType");
 	 RestaurantService restService = new RestaurantService();
 	
 	if (actionType.equalsIgnoreCase("display_menu")) {	    
-	     try {
-		 request.setAttribute("menu", restService.getAllMenuItems());
+	    try {
+		request.setAttribute("menu", restService.getAllMenuItems());
+		
+	    } catch (Exception ex) {
+		Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 		 
 		 
 		 RequestDispatcher view = request.getRequestDispatcher(RESULT_PAGE);
 		 view.forward(request, response);
-	     } catch (Exception ex) {
-		 Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
-	     }
+	    
 	}
     }
 

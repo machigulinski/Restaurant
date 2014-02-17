@@ -16,24 +16,38 @@
 	
 	<style>
 	    form h3 { padding: 0; margin: .5em 0;}
+	    form ul li {list-style: none;}
 	</style>
     </head>
     <body>
+	<header>
+	    <h3><%=getServletContext().getInitParameter("author") %></h3>
+	</header>
 	<form>
         <h1>Our Awesome Menu</h1>
+	<ul>
 	
 	 <%
-	    List recs = (List)request.getAttribute("menu");
-	   // Iterator it = recs.iterator();
-	    //while(it.hasNext()) {
-	    for (Object item: recs) {
+	    List<MenuItem> recs = (List)request.getAttribute("menu");
+	    
+	   /* Iterator it = recs.iterator();
+	   while(it.hasNext()) {
+	     it.next()
+	    }*/
+	    
+	    for (MenuItem item: recs) {
 	%>
 	
-	    <h3><%=item %></h3>
+	    <li>
+		<h3><%=item%></h3>				    
+		<input type="submit" id="<%=item.getItemId()%>" name="<%=item.getItemId()%>" value="EDIT" />
+		<input type="submit" id="<%=item.getItemId()%>" name="<%=item.getItemId()%>" value="DELETE" />		 
+	    </li>
 	<%
 	    }
 	%>
 	
+	    </ul>
 	</form>
 	  
     </body>
