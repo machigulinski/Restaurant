@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-     <servlet>
+    <servlet>
         <servlet-name>front</servlet-name>
-        <servlet-class>controller.RestaurantController</servlet-class>	
+        <servlet-class>controller.RestaurantController</servlet-class>
     </servlet>
-    
     <context-param>
-	    <param-name>author</param-name>
-	    <param-value>author: Maciej Gulinski</param-value>
+        <param-name>author</param-name>
+        <param-value>author: Maciej Gulinski</param-value>
     </context-param>
-    
+    <servlet>
+        <servlet-name>MenuModificationController</servlet-name>
+        <servlet-class>controller.MenuModificationController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>front</servlet-name>
-        <url-pattern>/action</url-pattern>
+        <url-pattern>/display_menu</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>MenuModificationController</servlet-name>
+        <url-pattern>/modify</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

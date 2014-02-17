@@ -1,11 +1,14 @@
 
 package restaurant.model;
 
+import db.accessor.DB_MySQL;
 import db.accessor.IDBAccessor;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -96,21 +99,26 @@ public class MenuItemDAO implements IMenuItemDAO{
 	}	
 	return menuRecords;
     }
-       
-//    public static void main(String[] args) {
-//	
-//	MenuItemDAO menu = new MenuItemDAO(new DB_MySQL());
-//	try {
-//	    menu.openDBConnection();
-//	
-//	    System.out.println("test");	    
-//	    
-//	    for (MenuItem m:  menu.getAllMenuItems()){
-//		System.out.println(m.toString());
-//	    }
-//	} catch (Exception ex) {
-//	    Logger.getLogger(MenuItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-//	}
-//    
-//    }
+    
+
+    public void deleteMenuItem (int itemId, boolean closeConnection) throws Exception {
+	
+	this.openDBConnection();     
+            
+	db.deleteRecord("menu_item", "item_id", itemId, true);
+	    
+    }
+    
+    public static void main(String[] args) {
+	try {
+	    MenuItemDAO menu = new MenuItemDAO(new DB_MySQL());
+	    
+	    menu.openDBConnection(); 
+	    menu.deleteMenuItem(1, true);
+	    
+	} catch (Exception ex) {
+	    Logger.getLogger(MenuItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	    }
+	
 }

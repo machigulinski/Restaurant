@@ -23,7 +23,7 @@
 	<header>
 	    <h3><%=getServletContext().getInitParameter("author") %></h3>
 	</header>
-	<form>
+	<form id="menu_display_form" name="menu_display_form" method="post" action="modify">
         <h1>Our Awesome Menu</h1>
 	<ul>
 	
@@ -40,8 +40,8 @@
 	
 	    <li>
 		<h3><%=item%></h3>				    
-		<input type="submit" id="<%=item.getItemId()%>" name="<%=item.getItemId()%>" value="EDIT" />
-		<input type="submit" id="<%=item.getItemId()%>" name="<%=item.getItemId()%>" value="DELETE" />		 
+		<input type="submit" id="<%=item.getItemId()%>" name="button" value="EDIT" />
+		<input type="submit" id="<%=item.getItemId()%>" name="button" value="DELETE" />		 
 	    </li>
 	<%
 	    }

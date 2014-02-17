@@ -7,6 +7,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -20,12 +21,10 @@ import restaurant.model.RestaurantService;
  *
  * @author Machi
  */
-public class RestaurantController extends HttpServlet {
-    private static final String RESULT_PAGE = "menu.jsp";
+public class MenuModificationController extends HttpServlet {
+    private static final String RESULT_PAGE = "edit.jsp";
     //private static final String MENU_BTN = "see_menu_btn";
-    private static final String SEE_MENU_BTN = "SEE OUR MENU";
-    
-
+    private static final String EDIT_BTN = "EDIT";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,27 +36,26 @@ public class RestaurantController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	response.setContentType("text/html;charset=UTF-8");	     
-     
-//	 String actionType = request.getParameter("actionType");
-//	 RestaurantService restService = new RestaurantService();
-	
+	response.setContentType("text/html;charset=UTF-8");
 	
 	 String button = request.getParameter("button");	 
 	 RestaurantService restService = new RestaurantService();
 	
-	if (button.equalsIgnoreCase(SEE_MENU_BTN)) {	    
+	if (button.equalsIgnoreCase(EDIT_BTN)) {	    
 	    try {
-		request.setAttribute("menu", restService.getAllMenuItems());
+		
+		String success = "total success";
+		//request.setAttribute("menu", restService.getAllMenuItems());
+		request.setAttribute("success", success);
+		
 		
 	    } catch (Exception ex) {
 		Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
 	    }		 
 		 
 	 RequestDispatcher view = request.getRequestDispatcher(RESULT_PAGE);
-	 view.forward(request, response);
-	    
-	} 
+	 view.forward(request, response);    
+	}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

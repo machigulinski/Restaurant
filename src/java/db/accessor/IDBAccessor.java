@@ -27,4 +27,7 @@ public interface IDBAccessor {
     public abstract List findAllRecords(String sqlQuery, boolean closeConnection)
 	    throws SQLException, Exception;
     
+    public abstract int deleteRecord(String tableName, String whereField, Object whereValue, boolean closeConnection)
+	throws SQLException, Exception;
+    
 }

@@ -5,6 +5,7 @@ package db.accessor;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * class is an implementation of IDBAccessor Interface
@@ -90,4 +93,74 @@ public class DB_MySQL  implements IDBAccessor {
 	
 	return recordList;	
     }	
+
+    @Override
+    public int deleteRecord(String tableName, String whereField, Object whereValue, boolean closeConnection) 
+	    throws SQLException, Exception {
+	
+	PreparedStatement deleteStmt = null;		
+	int recsDeleted = 0;
+	
+	try {			
+	    deleteStmt = buildDeleteStatement(connection, tableName, whereField);
+	    
+//	    if(whereValue instanceof Integer ){
+//		deleteStmt.setInt( 1,((Integer)whereValue).intValue() );
+//	    }
+	    
+	    if(whereValue instanceof String ){
+		deleteStmt.setString( 1,((String)whereValue ));
+	    }
+	    
+	    deleteStmt.executeUpdate();
+
+		
+	} catch (SQLException sqle) {
+			throw sqle;	
+	} finally {			
+	    try {				
+		deleteStmt.close();				
+		if(closeConnection) connection.close();
+			
+	    } catch(SQLException e) {
+		throw e;
+	    } 		
+	} // end finally
+		
+	return recsDeleted;	    
+    }
+    
+
+    private PreparedStatement buildDeleteStatement
+	(Connection connection, String tableName, String whereField) throws SQLException 
+	{
+	    final StringBuffer str = new StringBuffer("DELETE FROM ");
+	    str.append(tableName);
+	    str.append(" WHERE ").append(whereField).append(" = ?");
+
+	    final String deleteStmt = str.toString();
+	    return connection.prepareStatement(deleteStmt);
+	}
+	
+	
+	   public static void main(String[] args) {
+	       
+	    final String DRV_ClASS_NAME = "com.mysql.jdbc.Driver";
+	    final String LOCAL_URL = "jdbc:mysql://localhost:3306/restaurant";
+	    final String USER = "admin";
+	    final String PASSWORD = "Gul@db13";
+	    try {
+		IDBAccessor db = new DB_MySQL();
+
+		db.openDBConnection(
+		    DRV_ClASS_NAME,
+		    LOCAL_URL,
+		    USER, PASSWORD);
+
+		db.deleteRecord("menu_item", "item_name", "garden salad", true);
+	    } catch (Exception ex) {
+		Logger.getLogger(DB_MySQL.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+
+    }
 }

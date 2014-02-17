@@ -3,8 +3,6 @@ package restaurant.model;
 import db.accessor.DB_MySQL;
 import db.accessor.IDBAccessor;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
